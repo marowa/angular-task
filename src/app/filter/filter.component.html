@@ -1,0 +1,193 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
+</head>
+<body>
+
+<!--Search Bar-->
+
+<div class="container-fluid">
+  <div class="row content">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-6">
+          <form class="form-inline" action="/action_page.php">
+              <div class="form-group">
+                <input type="search" #textbox style="width: 270px;" class="form-control" (ngModel)="searchByType" id="search1" placeholder="What do you want to learn?" name="search1">
+              </div>
+              <div class="form-group">
+                <input type="search" style="width: 270px;" class="form-control" id="search2" placeholder="Write or choose a city" name="search2" list="cities">
+                <datalist id="cities">
+                  <option *ngFor="let c of cities" [value]="c.text">{{c.text}}</option>
+                </datalist>
+              </div>
+              <button class="searchBtn" (click)="search(textbox.value,selected)" type="submit" class="responsive-btn btn btn-primary">Search</button>
+          </form>
+      </div>
+      <div class="col-sm-3"></div>
+  </div>
+</div>
+
+<!--Filter-form and tabla-->
+<div class="container-fluid" style="padding-top: 75px;">
+    <div class="row content">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+            <form style="border-radius: 5px;box-shadow: 2px 2px 2px 2px #00000029;">
+                <div style="padding: 15px;">
+                    <label class="labelF">City</label>
+                    <div class="form-group">
+                        <ng-multiselect-dropdown
+                        [placeholder]="'Choose a city or more'"
+                        [settings]="dropdownSettings"
+                        [data]="cities"
+                        [(ngModel)]="selectedItems"
+                        (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)"
+                        onselect="selectedCity($event)"
+                      >
+                      </ng-multiselect-dropdown> 
+                    </div>
+                    <label class="labelF">Program</label>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Program" id="bachelorRadioBtn" checked>
+                                <label class="form-check-label" for="bachelorRadioBtn">
+                                  Bachelor
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Program" id="masterRadioBtn">
+                                <label class="form-check-label" for="masterRadioBtn">
+                                  Master
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Program" id="mbaRadioBtn">
+                                <label class="form-check-label" for="mbaRadioBtn">
+                                  MBA
+                                </label>
+                              </div><div class="form-check">
+                                <input class="form-check-input" type="radio" name="Program" id="bhdRadioBtn">
+                                <label class="form-check-label" for="bhdRadioBtn">
+                                  BHD
+                                </label>
+                              </div>
+                        </div>
+                        <label class="labelF">Field</label>
+                        <div class="form-group">
+                            <ng-multiselect-dropdown
+                            [placeholder]="'Choose a field or more'"
+                            [settings]="dropdownSettings"
+                            [data]="fields"
+                            [(ngModel)]="selectedItems"
+                            (onSelect)="onItemSelect($event)"
+                            (onSelectAll)="onSelectAll($event)"
+                          >
+                          </ng-multiselect-dropdown> 
+                        </div>
+                        <label class="labelF">School</label>
+                        <div class="form-group">
+                            <ng-multiselect-dropdown
+                            [placeholder]="'Choose a school or more'"
+                            [settings]="dropdownSettings"
+                            [data]="schools"
+                            [(ngModel)]="selectedItems"
+                            (onSelect)="onItemSelect($event)"
+                            (onSelectAll)="onSelectAll($event)"
+                          >
+                          </ng-multiselect-dropdown> 
+                        </div>
+                        <label class="labelF">Language</label>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="language" id="allRadioBtn" checked>
+                                    <label class="form-check-label" for="allRadioBtn">
+                                      All
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="language" id="englishRadioBtn">
+                                    <label class="form-check-label" for="englishRadioBtn">
+                                      English
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="language" id="frenchRadioBtn">
+                                    <label class="form-check-label" for="frenchRadioBtn">
+                                      French
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="labelF">Sort</label>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="lowToHigh" checked>
+                                    <label class="form-check-label" for="lowToHigh">
+                                      Price: low to high
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="highToLow">
+                                    <label class="form-check-label" for="highToLow">
+                                      Price: high to low
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn" style="width:75px;color:#F3F6FF;background-color:#1C85C8">Filter</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-7">
+          <table class="tbl" *ngIf="data">
+            <tr *ngFor="let d of data | filter:searchByType">
+              <td>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <img class="imgTbl" src="assets\Images\{{d.school}}.png" onerror="this.src='assets/Images/AUDENCIA.png'" width="80px" height="80px">
+                    </div>
+                    <div class="col-sm-10">
+                      <p class="nameTbl">{{d.Name}}</p>
+                      <p class="schoolTbl">{{d.school}}</p>
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <span class="feeTbl">Tuition Fee</span> <span class="costTbl"> {{d.fee}}$ Per Year</span>
+                          </div>
+                          <div class="col-sm-3 costTbl">
+                            {{d.city}}
+                          </div>
+                          <div class="col-sm-3">
+                            <button class="btn btn-primary infoBtn" >More info</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="hrLine">
+              </td>
+            </tr>
+            
+          </table>
+            <!--<ul>
+              <li *ngFor="let d of data">
+                {{d.city}}
+              </li>
+            </ul>-->
+        </div>
+        <div class="col-sm-1"></div>
+
+    </div>
+</div>
